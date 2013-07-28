@@ -6,4 +6,3 @@ stage:irt
 stage:codegen 
 optimizing: algebraic simplification 
 commit de prueba
-/* comentario */
