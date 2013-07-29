@@ -5,3 +5,4 @@ stage:semantic
 stage:irt 
 stage:codegen 
 optimizing: algebraic simplification 
+agregar
