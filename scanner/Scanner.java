@@ -1,0 +1,1 @@
+package compiler.scanner;/* ScannerCLI.java */public class Scanner{/* Campos ScannerCLI*//* Construtor ScannerCLI*/	public Scanner (String archivo)throws Exception  {			}/* Metodos ScannerCLI */}

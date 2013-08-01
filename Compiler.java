@@ -1,4 +1,5 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
 import java.io.*;
 import compiler.scanner.*;
 import compiler.parser.*;
@@ -138,16 +139,16 @@ public class Compiler{
 			PrintWriter wr = new PrintWriter(bw);				
 			
 			if (opcionTarget.equals("scan")){
-				ScannerCLI scnnr = new ScannerCLI(archivoEntrada); wr.write("stage:scan \n"); //escribimos <stage> en archivo de salida
+				Scanner scnnr = new Scanner(archivoEntrada); wr.write("stage:scan \n"); //escribimos <stage> en archivo de salida
 				if (opcionDebug.contains("scan")) {System.out.println("Debugging scan");} //imprime debug <stage> a pantalla
 			}else if (opcionTarget.equals("parse")){
-				ScannerCLI scnnr = new ScannerCLI(archivoEntrada); wr.write("stage:scan \n"); //escribimos <stage> en archivo de salida
+				Scanner scnnr = new Scanner(archivoEntrada); wr.write("stage:scan \n"); //escribimos <stage> en archivo de salida
 				if (opcionDebug.contains("scan")) {System.out.println("Debugging scan");} //imprime debug <stage> a pantalla
 				
 				CC4Parser prsr = new CC4Parser(scnnr); wr.write("stage:parse \n"); //escribimos <stage> en archivo de salida
 				if (opcionDebug.contains("parse")) {System.out.println("Debugging parse");} //imprime debug <stage> a pantalla
 			}else if (opcionTarget.equals("ast")){
-				ScannerCLI scnnr = new ScannerCLI(archivoEntrada); wr.write("stage:scan \n"); //escribimos <stage> en archivo de salida
+				Scanner scnnr = new Scanner(archivoEntrada); wr.write("stage:scan \n"); //escribimos <stage> en archivo de salida
 				if (opcionDebug.contains("scan")) {System.out.println("Debugging scan");} //imprime debug <stage> a pantalla
 				
 				CC4Parser prsr = new CC4Parser(scnnr); wr.write("stage:parse \n"); //escribimos <stage> en archivo de salida
@@ -156,7 +157,7 @@ public class Compiler{
 				Ast ast = new Ast(prsr); wr.write("stage:ast \n"); //escribimos <stage> en archivo de salida
 				if (opcionDebug.contains("ast")) {System.out.println("Debugging ast");} //imprime debug <stage> a pantalla
 			}else if (opcionTarget.equals("semantic")){
-				ScannerCLI scnnr = new ScannerCLI(archivoEntrada); wr.write("stage:scan \n"); //escribimos <stage> en archivo de salida
+				Scanner scnnr = new Scanner(archivoEntrada); wr.write("stage:scan \n"); //escribimos <stage> en archivo de salida
 				if (opcionDebug.contains("scan")) {System.out.println("Debugging scan");} //imprime debug <stage> a pantalla
 				CC4Parser prsr = new CC4Parser(scnnr); wr.write("stage:parse \n"); //escribimos <stage> en archivo de salida
 				if (opcionDebug.contains("parse")) {System.out.println("Debugging parse");} //imprime debug <stage> a pantalla
@@ -166,7 +167,7 @@ public class Compiler{
 				Semantic smntc = new Semantic(ast); wr.write("stage:semantic \n"); //escribimos <stage> en archivo de salida
 				if (opcionDebug.contains("semantic")) {System.out.println("Debugging semantic");} //imprime debug <stage> a pantalla
 			}else if (opcionTarget.equals("irt")){
-				ScannerCLI scnnr = new ScannerCLI(archivoEntrada); wr.write("stage:scan \n"); //escribimos <stage> en archivo de salida
+				Scanner scnnr = new Scanner(archivoEntrada); wr.write("stage:scan \n"); //escribimos <stage> en archivo de salida
 				if (opcionDebug.contains("scan")) {System.out.println("Debugging scan");} //imprime debug <stage> a pantalla
 				
 				CC4Parser prsr = new CC4Parser(scnnr); wr.write("stage:parse \n"); //escribimos <stage> en archivo de salida
@@ -181,7 +182,7 @@ public class Compiler{
 				Irt irt = new Irt(smntc); wr.write("stage:irt \n"); //escribimos <stage> en archivo de salida
 				if (opcionDebug.contains("irt")) {System.out.println("Debugging irt");} //imprime debug <stage> a pantalla
 			}else if (opcionTarget.equals("codegen")){
-				ScannerCLI scnnr = new ScannerCLI(archivoEntrada); wr.write("stage:scan \n"); //escribimos <stage> en archivo de salida
+				Scanner scnnr = new Scanner(archivoEntrada); wr.write("stage:scan \n"); //escribimos <stage> en archivo de salida
 				if (opcionDebug.contains("scan")) {System.out.println("Debugging scan");} //imprime debug <stage> a pantalla
 				
 				CC4Parser prsr = new CC4Parser(scnnr); wr.write("stage:parse \n"); //escribimos <stage> en archivo de salida
