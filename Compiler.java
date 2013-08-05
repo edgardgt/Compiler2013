@@ -8,6 +8,7 @@ import compiler.semantic.*;
 import compiler.irt.*;
 import compiler.codegen.*;
 import compiler.opt.*;
+import org.antlr.v4.runtime.*;
 
 public class Compiler{
 
@@ -139,9 +140,15 @@ public class Compiler{
 			PrintWriter wr = new PrintWriter(bw);				
 			
 			if (opcionTarget.equals("scan")){
-				Scanner scnnr = new Scanner(archivoEntrada); wr.write("stage:scan \n"); //escribimos <stage> en archivo de salida
+				//Scanner scnnr = new Scanner(archivoEntrada); 
+				Scanner lexer = new Scanner(new ANTLRFileStream(archivoEntrada));
+				while (lexer.nextToken().getType() != Token.EOF);
+				
+				wr.write("stage:scan \n"); //escribimos <stage> en archivo de salida
 				if (opcionDebug.contains("scan")) {System.out.println("Debugging scan");} //imprime debug <stage> a pantalla
-			}else if (opcionTarget.equals("parse")){
+			}
+			/*
+			else if (opcionTarget.equals("parse")){
 				Scanner scnnr = new Scanner(archivoEntrada); wr.write("stage:scan \n"); //escribimos <stage> en archivo de salida
 				if (opcionDebug.contains("scan")) {System.out.println("Debugging scan");} //imprime debug <stage> a pantalla
 				
@@ -200,7 +207,7 @@ public class Compiler{
 				Codegen cdgn = new Codegen(irt); wr.write("stage:codegen \n"); //escribimos <stage> en archivo de salida
 				if (opcionDebug.contains("codegen")) {System.out.println("Debugging codegen");} //imprime debug <stage> a pantalla
 				}
-			
+			*/
 			if (opcionOpt.equals("constant")){
 				ConstantFolding  cf = new ConstantFolding(); wr.write("optimizing: constant folding \n"); //escribimos <optimizing> en archivo de salida
 			}else if(opcionOpt.equals("algebraic")){
