@@ -1,4 +1,4 @@
-lexer grammar Decaf;
+lexer grammar Scanner;
 
 @header{
     package compiler.scanner;
