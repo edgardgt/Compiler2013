@@ -1,7 +1,10 @@
-make: Compiler.class scanner\Scanner.class parser\CC4Parser.class ast\Ast.class semantic\Semantic.class irt\Irt.class codegen\Codegen.class opt\Algebraic.class opt\ConstantFolding.class lib\Debug.class lib\ErrorHandler.class
+make: scanner\Decaf.class Compiler.class scanner\Scanner.class parser\CC4Parser.class ast\Ast.class semantic\Semantic.class irt\Irt.class codegen\Codegen.class opt\Algebraic.class opt\ConstantFolding.class lib\Debug.class lib\ErrorHandler.class
 	
 Compiler.class: Compiler.java
 	javac Compiler.java
+
+scanner\Decaf.class: scanner\Decaf.java
+	javac scanner\Decaf.java
 	
 scanner\Scanner.class: scanner\Scanner.java
 	javac scanner\Scanner.java
@@ -45,3 +48,4 @@ clean:
 	del opt\ConstantFolding.class
 	del lib\Debug.class
 	del lib\ErrorHandler.class
+	del scanner\Decaf.class
