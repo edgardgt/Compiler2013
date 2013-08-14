@@ -19,6 +19,15 @@ public class Compiler{
 		ArrayList<String> opcionDebug = new ArrayList<String>(); //almacena parametro(s) de opcion debug, se usa un ArrayList porque pueden ser uno o mas
 		ArrayList<String> accionesEjecutar = new ArrayList<String>(); //almacena que opciones del compilador deben ser ejecutadas. Depende de los argumentos ingresados
 		String archivoEntrada = new String(""); //almacena el nombre del archivo de entrada
+		
+		Scanner scnnr=null;
+		CC4Parser prsr=null;
+		Ast ast=null;
+		Semantic smntc=null;
+		Irt irt=null;
+		Codegen cdgn=null;
+
+		
 
 		ArrayList<String> fasesCompilador = new ArrayList<String>(); //lista de las fases del compilador
 		fasesCompilador.add("scan");
@@ -138,66 +147,33 @@ public class Compiler{
 			BufferedWriter bw = new BufferedWriter(w);
 			PrintWriter wr = new PrintWriter(bw);				
 			
-			if (opcionTarget.equals("scan")){
-				Scanner scnnr = new Scanner(archivoEntrada); wr.write("stage:scan \n"); //escribimos <stage> en archivo de salida
+			if (opcionTarget.equals("scan") | opcionTarget.equals("parse") | opcionTarget.equals("ast") | opcionTarget.equals("semantic") | opcionTarget.equals("irt") | opcionTarget.equals("codegen")){
+				scnnr = new Scanner(archivoEntrada); wr.write("stage:scan \n"); //escribimos <stage> en archivo de salida
 				if (opcionDebug.contains("scan")) {System.out.println("Debugging scan");} //imprime debug <stage> a pantalla
-			}else if (opcionTarget.equals("parse")){
-				Scanner scnnr = new Scanner(archivoEntrada); wr.write("stage:scan \n"); //escribimos <stage> en archivo de salida
-				if (opcionDebug.contains("scan")) {System.out.println("Debugging scan");} //imprime debug <stage> a pantalla
-				
-				CC4Parser prsr = new CC4Parser(scnnr); wr.write("stage:parse \n"); //escribimos <stage> en archivo de salida
+				}
+
+			if (opcionTarget.equals("parse") | opcionTarget.equals("ast") | opcionTarget.equals("semantic") | opcionTarget.equals("irt") | opcionTarget.equals("codegen")){
+				prsr = new CC4Parser(scnnr); wr.write("stage:parse \n"); //escribimos <stage> en archivo de salida
 				if (opcionDebug.contains("parse")) {System.out.println("Debugging parse");} //imprime debug <stage> a pantalla
-			}else if (opcionTarget.equals("ast")){
-				Scanner scnnr = new Scanner(archivoEntrada); wr.write("stage:scan \n"); //escribimos <stage> en archivo de salida
-				if (opcionDebug.contains("scan")) {System.out.println("Debugging scan");} //imprime debug <stage> a pantalla
+				}
 				
-				CC4Parser prsr = new CC4Parser(scnnr); wr.write("stage:parse \n"); //escribimos <stage> en archivo de salida
-				if (opcionDebug.contains("parse")) {System.out.println("Debugging parse");} //imprime debug <stage> a pantalla
-				
-				Ast ast = new Ast(prsr); wr.write("stage:ast \n"); //escribimos <stage> en archivo de salida
+			if (opcionTarget.equals("ast") | opcionTarget.equals("semantic") | opcionTarget.equals("irt") | opcionTarget.equals("codegen")){
+				ast = new Ast(prsr); wr.write("stage:ast \n"); //escribimos <stage> en archivo de salida
 				if (opcionDebug.contains("ast")) {System.out.println("Debugging ast");} //imprime debug <stage> a pantalla
-			}else if (opcionTarget.equals("semantic")){
-				Scanner scnnr = new Scanner(archivoEntrada); wr.write("stage:scan \n"); //escribimos <stage> en archivo de salida
-				if (opcionDebug.contains("scan")) {System.out.println("Debugging scan");} //imprime debug <stage> a pantalla
-				CC4Parser prsr = new CC4Parser(scnnr); wr.write("stage:parse \n"); //escribimos <stage> en archivo de salida
-				if (opcionDebug.contains("parse")) {System.out.println("Debugging parse");} //imprime debug <stage> a pantalla
-				Ast ast = new Ast(prsr); wr.write("stage:ast \n"); //escribimos <stage> en archivo de salida
-				if (opcionDebug.contains("ast")) {System.out.println("Debugging ast");} //imprime debug <stage> a pantalla
+				}
 				
-				Semantic smntc = new Semantic(ast); wr.write("stage:semantic \n"); //escribimos <stage> en archivo de salida
+			if (opcionTarget.equals("semantic") | opcionTarget.equals("irt") | opcionTarget.equals("codegen")){
+				smntc = new Semantic(ast); wr.write("stage:semantic \n"); //escribimos <stage> en archivo de salida
 				if (opcionDebug.contains("semantic")) {System.out.println("Debugging semantic");} //imprime debug <stage> a pantalla
-			}else if (opcionTarget.equals("irt")){
-				Scanner scnnr = new Scanner(archivoEntrada); wr.write("stage:scan \n"); //escribimos <stage> en archivo de salida
-				if (opcionDebug.contains("scan")) {System.out.println("Debugging scan");} //imprime debug <stage> a pantalla
+				}
 				
-				CC4Parser prsr = new CC4Parser(scnnr); wr.write("stage:parse \n"); //escribimos <stage> en archivo de salida
-				if (opcionDebug.contains("parse")) {System.out.println("Debugging parse");} //imprime debug <stage> a pantalla
-				
-				Ast ast = new Ast(prsr); wr.write("stage:ast \n"); //escribimos <stage> en archivo de salida
-				if (opcionDebug.contains("ast")) {System.out.println("Debugging ast");} //imprime debug <stage> a pantalla
-				
-				Semantic smntc = new Semantic(ast); wr.write("stage:semantic \n"); //escribimos <stage> en archivo de salida
-				if (opcionDebug.contains("semantic")) {System.out.println("Debugging semantic");} //imprime debug <stage> a pantalla
-				
-				Irt irt = new Irt(smntc); wr.write("stage:irt \n"); //escribimos <stage> en archivo de salida
+			if (opcionTarget.equals("irt") | opcionTarget.equals("codegen")){
+				irt = new Irt(smntc); wr.write("stage:irt \n"); //escribimos <stage> en archivo de salida
 				if (opcionDebug.contains("irt")) {System.out.println("Debugging irt");} //imprime debug <stage> a pantalla
-			}else if (opcionTarget.equals("codegen")){
-				Scanner scnnr = new Scanner(archivoEntrada); wr.write("stage:scan \n"); //escribimos <stage> en archivo de salida
-				if (opcionDebug.contains("scan")) {System.out.println("Debugging scan");} //imprime debug <stage> a pantalla
+				}
 				
-				CC4Parser prsr = new CC4Parser(scnnr); wr.write("stage:parse \n"); //escribimos <stage> en archivo de salida
-				if (opcionDebug.contains("parse")) {System.out.println("Debugging parse");} //imprime debug <stage> a pantalla
-				
-				Ast ast = new Ast(prsr); wr.write("stage:ast \n"); //escribimos <stage> en archivo de salida
-				if (opcionDebug.contains("ast")) {System.out.println("Debugging ast");} //imprime debug <stage> a pantalla
-				
-				Semantic smntc = new Semantic(ast); wr.write("stage:semantic \n"); //escribimos <stage> en archivo de salida
-				if (opcionDebug.contains("semantic")) {System.out.println("Debugging semantic");} //imprime debug <stage> a pantalla
-				
-				Irt irt = new Irt(smntc); wr.write("stage:irt \n"); //escribimos <stage> en archivo de salida
-				if (opcionDebug.contains("irt")) {System.out.println("Debugging irt");} //imprime debug <stage> a pantalla
-				
-				Codegen cdgn = new Codegen(irt); wr.write("stage:codegen \n"); //escribimos <stage> en archivo de salida
+			if (opcionTarget.equals("codegen")){
+				cdgn = new Codegen(irt); wr.write("stage:codegen \n"); //escribimos <stage> en archivo de salida
 				if (opcionDebug.contains("codegen")) {System.out.println("Debugging codegen");} //imprime debug <stage> a pantalla
 				}
 			
