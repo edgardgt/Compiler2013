@@ -42,10 +42,12 @@ public class Compiler{
 		// Inicia analisis del argumento args
 		int argsAnalizar = args.length - 1;
 		
-		if (argsAnalizar < 4){ // si el numero de parametros es menor a 4, no debe continuar con el analisis de args
+		if (argsAnalizar < 0){ // si el numero de argumentos a analizar es menor a 0, no debe continuar con el analisis de args
 			puedeEjecutar = false;
 			//System.exit(0);
-		}else{ // si el numero de parametros es >= 4, puede continuar con el analisis de args
+		}else if (argsAnalizar == 0){ //si tiene un unico parametro debe ser el archivo de entrada, por lo tanto los argumentos a analizar es 0
+			archivoEntrada = args[0];
+		}else{ // si el numero de argumentos a analizar es >= 1, puede continuar con el analisis de args
 			boolean continuar = true; int i = 0;
 			// lectura del ultimo argumento, se asume que es el archivo de entrada
 			if (args[args.length-1].charAt(0) != '-'){ archivoEntrada = args[args.length-1];
@@ -142,6 +144,8 @@ public class Compiler{
 			*/
 
 			//prepara el archivo de salida para escritura
+			if (archivoSalida.equals("")){archivoSalida = "salidadefault.txt";} // escribe salida a archivo default
+			if (opcionTarget.equals("")){opcionTarget = "parse";} //si el usuario no coloca target, el default para esta fase es "parse"
 			fileSalida = new File(archivoSalida);
 			FileWriter w = new FileWriter(fileSalida);
 			BufferedWriter bw = new BufferedWriter(w);
