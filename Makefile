@@ -58,4 +58,3 @@ clean:
 	del opt\ConstantFolding.class
 	del lib\Debug.class
 	del lib\ErrorHandler.class
-	del scanner\Decaf.class
