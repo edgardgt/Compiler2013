@@ -5,61 +5,71 @@ lexer grammar Decaf;
 }
 
 
-// OTROS
-//-----------------------------------------------
-WS          : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines
-COMMA       : ',';
-COLON		: ':';
-SEMI        : ';';
-DIGITO	    : '0'..'9';
-ALFA        : ('a'..'z' | 'A'..'Z' | '_' );
+
 
 //PALABRAS RESERVADAS
 //-----------------------------------------------
 CLASE		:  'class';
 VOID		:  'void';
-BOOLEAN     :  'boolean';
 TRUE		:  'true';
 FALSE		:  'false';
-INT         :  'int';
-//FLOAT       :  'float';
 IF			:  'if';
 ELSE		:  'else';
-FOR			:  'for';
+FOR		    :  'for';
 RETURN		:  'return';
 BREAK		:  'break';
 CONTINUE	:  'continue';
-CALLOUT		:  'callout';
+CALLOUT	    :  'callout';
+fragment BOOLEAN     :  'boolean';
+fragment INT         :  'int';
 
+
+TIPO        :  INT | BOOLEAN ;
+
+// LITERALES
+//-----------------------------------------------
+CHAR_LITERAL        :  ('\'')('\u0020'..'\u007E')('\'') ;
+STRING_LITERAL      :  ('"') ('\u0020'..'\u007E')('\u0020'..'\u007E')* ('"') ;
+BOOL_LITERAL  : TRUE | FALSE;
+INT_LITERAL   : DECIMAL | HEXA;
+HEXA        :  ('0x'|'0X') (DIGITO | 'A'..'F' | 'a'..'f' )+ ;
+DECIMAL     :  (DIGITO) (DIGITO)* ;
 
 
 // OPERADORES ARITMETICOS
 //-----------------------------------------------
-MAS			:  '+';
-MENOS		:  '-';
-PROD		:  '*';
-DIV			:  '/';
-MOD			:  '%';
+fragment MAS		:  '+';
+MENOS				:  '-';
+fragment PROD		:  '*';
+fragment DIV		:  '/';
+fragment MOD		:  '%';
+
+ARITH_OP    : MAS | MENOS | PROD | DIV | MOD;
 
 
 // OPERADORES RELACIONALES
 //-----------------------------------------------
-MENORQ 		:  '<';
-MAYORQ 		:  '>'; 
-MENORIGQ 	:  '<=';  
-MAYORIGQ 	:  '>=';
+fragment MENORQ 		:  '<';
+fragment MAYORQ 		:  '>'; 
+fragment MENORIGQ 	:  '<=';  
+fragment MAYORIGQ 	:  '>=';
 
+REL_OP      : MENORQ | MAYORQ | MENORIGQ | MAYORIGQ;
 
 // OPERADORES DE COMPARACION
 //-----------------------------------------------
-IGUAL 		:  '==';
-DIFERENTE	:  '!=';
+fragment IGUAL 		:  '==';
+fragment DIFERENTE	:  '!=';
+
+EQ_OP       : IGUAL | DIFERENTE;
 
 // OPERADORES LOGICOS
 //-----------------------------------------------
-AND 		:  '&&';
-OR 			:  '||';
-NOT 		:  '!';
+fragment AND :  '&&';
+fragment OR  :  '||';
+NOT :  '!';
+
+COND_OP     : AND | OR | NOT;
 
 // OPERADORES DE ASIGNACION
 //-----------------------------------------------
@@ -68,13 +78,6 @@ INCREMENTA  :  '+=';
 DECREMENTA  :  '-=';
 
 
-// LITERALES
-//-----------------------------------------------
-HEXA        :  ('0x'|'0X') (DIGITO | 'A'..'F' | 'a'..'f' )+ ;
-NATURAL		:  (DIGITO)+ ;
-REAL		:  (DIGITO)+ '.' DIGITO+ ;
-CHAR        :  ('\'')('\u0020'..'\u007E')('\'') ;
-STRING      :  ('"') ('\u0020'..'\u007E')('\u0020'..'\u007E')* ('"') ;
 
 
   
@@ -91,4 +94,14 @@ RPARENTH    :  ')' ;
 // IDENTIFICADOR
 //-----------------------------------------------
 ID          : (ALFA)(ALFA|DIGITO)*;
+
+// OTROS
+//-----------------------------------------------
+WS          : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines
+COMMA       : ',';
+COLON		: ':';
+SEMI        : ';';
+fragment DIGITO	    : '0'..'9';
+fragment ALFA        : ('a'..'z' | 'A'..'Z' | '_' );
+
 
