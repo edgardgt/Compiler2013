@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+import java.util.LinkedList;
+import java.util.Iterator;
 import java.io.*;
 import compiler.scanner.*;
 import compiler.parser.*;
@@ -19,6 +21,7 @@ public class Compiler{
 		ArrayList<String> opcionDebug = new ArrayList<String>(); //almacena parametro(s) de opcion debug, se usa un ArrayList porque pueden ser uno o mas
 		ArrayList<String> accionesEjecutar = new ArrayList<String>(); //almacena que opciones del compilador deben ser ejecutadas. Depende de los argumentos ingresados
 		String archivoEntrada = new String(""); //almacena el nombre del archivo de entrada
+		LinkedList<MiToken> miListadeTokens = new LinkedList<MiToken>(); //almacena lista de tokens
 		
 		Scanner scnnr=null;
 		CC4Parser prsr=null;
@@ -153,6 +156,14 @@ public class Compiler{
 			
 			if (opcionTarget.equals("scan") | opcionTarget.equals("parse") | opcionTarget.equals("ast") | opcionTarget.equals("semantic") | opcionTarget.equals("irt") | opcionTarget.equals("codegen")){
 				scnnr = new Scanner(archivoEntrada); wr.write("stage:scan \n"); //escribimos <stage> en archivo de salida
+				miListadeTokens = scnnr.ListaDeTokens();
+				//System.out.println(miListadeTokens);
+				for (Iterator i = miListadeTokens.iterator(); i.hasNext();) {
+					MiToken tokenI = (MiToken) i.next();
+					//System.out.println(tokenI);
+					wr.write(tokenI.toString());
+				}
+				
 				if (opcionDebug.contains("scan")) {System.out.println("Debugging scan");} //imprime debug <stage> a pantalla
 				}
 
