@@ -105,6 +105,5 @@ fragment DIGITO	    : '0'..'9';
 fragment ALFA        : ('a'..'z' | 'A'..'Z' | '_' );
 
 COMMENTLIN: '//' (~('\n'| '\r'))* {skip();};
-COMMENTTEX: '/*' ( options { greedy = false; } : .* ) '*/' {skip();};
 
 

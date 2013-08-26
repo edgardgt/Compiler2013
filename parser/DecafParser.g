@@ -47,8 +47,6 @@ method_name : ID                                                              { 
 location    : ID
             | ID LBRACKET INT_LITERAL RBRACKET                                { linea++; arbol.add("Location "+linea);} ;
 
-
-// Las producciones de expresion se dividen en dos partes: recursivas  y no recursivas
 expr        : ((location 
             |  method_call 
 			|  literal 
