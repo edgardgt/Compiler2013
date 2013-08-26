@@ -28,12 +28,12 @@ TIPO        :  INT | BOOLEAN ;
 
 // LITERALES
 //-----------------------------------------------
-CHAR_LITERAL        :  ('\'')('\u0020'..'\u007E')('\'') ;
-STRING_LITERAL      :  ('"') ('\u0020'..'\u007E')('\u0020'..'\u007E')* ('"') ;
-BOOL_LITERAL  : TRUE | FALSE;
-INT_LITERAL   : DECIMAL | HEXA;
-HEXA        :  ('0x'|'0X') (DIGITO | 'A'..'F' | 'a'..'f' )+ ;
-DECIMAL     :  (DIGITO) (DIGITO)* ;
+CHAR_LITERAL        : ('\'')('\u0020'..'\u007E')('\'') ;
+STRING_LITERAL      : ('"') ('\u0020'..'\u007E')('\u0020'..'\u007E')* ('"') ;
+BOOL_LITERAL        : TRUE | FALSE;
+INT_LITERAL         : DECIMAL | HEXA;
+HEXA                : ('0x'|'0X') (DIGITO | 'A'..'F' | 'a'..'f' )+ ;
+fragment DECIMAL    : (DIGITO) (DIGITO)* ;
 
 
 // OPERADORES ARITMETICOS
@@ -103,5 +103,8 @@ COLON		: ':';
 SEMI        : ';';
 fragment DIGITO	    : '0'..'9';
 fragment ALFA        : ('a'..'z' | 'A'..'Z' | '_' );
+
+COMMENTLIN: '//' (~('\n'| '\r'))* {skip();};
+COMMENTTEX: '/*' ( options { greedy = false; } : .* ) '*/' {skip();};
 
 
