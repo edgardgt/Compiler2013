@@ -47,13 +47,17 @@ method_name : ID                                                              { 
 location    : ID
             | ID LBRACKET INT_LITERAL RBRACKET                                { linea++; arbol.add("Location "+linea);} ;
 
-expr        : location 
+
+// Las producciones de expresion se dividen en dos partes: recursivas  y no recursivas
+expr        : ((location 
             |  method_call 
-            |  literal 
-            |  expr bin_op expr
-            |  MENOS expr
-            |  NOT expr 
-            |  LPARENTH expr RPARENTH                                         { linea++; arbol.add("Expr "+linea);} ;
+			|  literal 
+			|  MENOS expr 
+			|  NOT expr 
+			|  LPARENTH expr RPARENTH) expr_2)                                { linea++; arbol.add("Expr   "+linea);} ;
+
+expr_2      : bin_op expr expr_2
+            |                                                                 { linea++; arbol.add("Expr_2 "+linea);} ;
 
 callout_arg : expr 
             | STRING_LITERAL                                                  { linea++; arbol.add("String_Literal "+linea);} ;
@@ -61,7 +65,7 @@ callout_arg : expr
 bin_op      : (ARITH_OP 
             |  REL_OP 
 			|  EQ_OP 
-			|  COND_OP)                                                       ;
+			|  COND_OP)                                                       { linea++; arbol.add("Bin_Op "+linea);} ;
 
 literal     : (INT_LITERAL 
             |  CHAR_LITERAL 
