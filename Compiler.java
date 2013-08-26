@@ -156,6 +156,7 @@ public class Compiler{
 			
 			if (opcionTarget.equals("scan") | opcionTarget.equals("parse") | opcionTarget.equals("ast") | opcionTarget.equals("semantic") | opcionTarget.equals("irt") | opcionTarget.equals("codegen")){
 				scnnr = new Scanner(archivoEntrada); wr.write("stage:scan \n"); //escribimos <stage> en archivo de salida
+				/*
 				miListadeTokens = scnnr.ListaDeTokens();
 				//System.out.println(miListadeTokens);
 				for (Iterator i = miListadeTokens.iterator(); i.hasNext();) {
@@ -163,7 +164,7 @@ public class Compiler{
 					//System.out.println(tokenI);
 					wr.write(tokenI.toString());
 				}
-				
+				*/
 				if (opcionDebug.contains("scan")) {System.out.println("Debugging scan");} //imprime debug <stage> a pantalla
 				}
 
