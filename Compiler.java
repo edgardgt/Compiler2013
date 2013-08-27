@@ -22,6 +22,7 @@ public class Compiler{
 		ArrayList<String> accionesEjecutar = new ArrayList<String>(); //almacena que opciones del compilador deben ser ejecutadas. Depende de los argumentos ingresados
 		String archivoEntrada = new String(""); //almacena el nombre del archivo de entrada
 		LinkedList<MiToken> miListadeTokens = new LinkedList<MiToken>(); //almacena lista de tokens
+		LinkedList<String> miListadeReglas = new LinkedList<String>(); //almacena lista de reglas del parser
 		
 		Scanner scnnr=null;
 		CC4Parser prsr=null;
@@ -130,6 +131,13 @@ public class Compiler{
 			}
 		}
 		
+		File fichero = new File(archivoEntrada);
+		if (!fichero.exists()){puedeEjecutar = false;} //si no existe archivo de entrada, no debe ejecutar.
+		/*
+		  System.out.println("El fichero " + fichero + " existe");
+		else
+		  System.out.println("Pues va a ser que no");
+		  */
 		
 		if (!(puedeEjecutar)){
 			Help();
@@ -161,18 +169,34 @@ public class Compiler{
 				if (opcionTarget.equals("scan")){
 					for (Iterator i = miListadeTokens.iterator(); i.hasNext();) {
 						MiToken tokenI = (MiToken) i.next();
-						//System.out.println(tokenI);
 						wr.write(tokenI.toString()); // impresion a archivo
+						}
 					}
-				}
-				if (opcionDebug.contains("scan")) {System.out.println("Debugging scan");} //imprime debug <stage> a pantalla
-				}
-
+				if (opcionDebug.contains("scan")) {
+					System.out.println("Debugging scan");
+					for (Iterator i = miListadeTokens.iterator(); i.hasNext();) {
+						MiToken tokenI = (MiToken) i.next();
+						System.out.print(tokenI.toString()); // debug a pantalla
+						}				
+					} //imprime debug <stage> a pantalla
+				}				
 			if (opcionTarget.equals("parse") | opcionTarget.equals("ast") | opcionTarget.equals("semantic") | opcionTarget.equals("irt") | opcionTarget.equals("codegen")){
-				prsr = new CC4Parser(scnnr); wr.write("stage:parse \n"); //escribimos <stage> en archivo de salida
-				if (opcionDebug.contains("parse")) {System.out.println("Debugging parse");} //imprime debug <stage> a pantalla
+				prsr = new CC4Parser(scnnr); //wr.write("stage:parse \n"); //escribimos <stage> en archivo de salida
+				miListadeReglas = prsr.ListaDeReglas();
+				if (opcionTarget.equals("parse")){
+					for (Iterator i = miListadeReglas.iterator(); i.hasNext();) {
+						String reglaI = (String) i.next();
+						wr.write(reglaI+"\n"); // impresion a archivo
+						}
+					}
+				if (opcionDebug.contains("parse")) {
+					System.out.println("Debugging parse");
+					for (Iterator i = miListadeReglas.iterator(); i.hasNext();) {
+						String reglaI = (String) i.next();
+						System.out.println(reglaI); // debug a pantalla
+						}
+					} //imprime debug <stage> a pantalla
 				}
-				
 			if (opcionTarget.equals("ast") | opcionTarget.equals("semantic") | opcionTarget.equals("irt") | opcionTarget.equals("codegen")){
 				ast = new Ast(prsr); wr.write("stage:ast \n"); //escribimos <stage> en archivo de salida
 				if (opcionDebug.contains("ast")) {System.out.println("Debugging ast");} //imprime debug <stage> a pantalla
@@ -201,6 +225,7 @@ public class Compiler{
 			
 			wr.close(); //cierra archivo
 			bw.close(); //cierra bufferwriter
+			System.out.println ("\nArchivo " + archivoSalida + " generado.");
 		}
 		
 	}
@@ -216,8 +241,8 @@ public class Compiler{
 		System.out.println("-debug <stage>:		<stage> -> uno o varios de scan, parse, ast, semantic, irt, codegen;");
 		System.out.println("-h:			Muestra esta ayuda al usuario.");
 		System.out.println("");
-		System.out.println("ejemplo: java Compiler -o prueba.txt -target codegen -opt algebraic -debug semantic:ast:codegen:scan entrada.txt");
-
+		System.out.println("ejemplo: java Compiler entrada.txt");
+		//System.out.println("ejemplo: java Compiler -o prueba.txt -target codegen -opt algebraic -debug semantic:ast:codegen:scan entrada.txt");
 	} //fin de Help
 	
 }
