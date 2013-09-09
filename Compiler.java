@@ -198,8 +198,14 @@ public class Compiler{
 					} //imprime debug <stage> a pantalla
 				}
 			if (opcionTarget.equals("ast") | opcionTarget.equals("semantic") | opcionTarget.equals("irt") | opcionTarget.equals("codegen")){
-				ast = new Ast(prsr); wr.write("stage:ast \n"); //escribimos <stage> en archivo de salida
-				if (opcionDebug.contains("ast")) {System.out.println("Debugging ast");} //imprime debug <stage> a pantalla
+				ast = new Ast(prsr); //wr.write("stage:ast \n"); //escribimos <stage> en archivo de salida
+				if (opcionTarget.equals("ast")){
+						wr.write(ast.arbolSTR()); // impresion a archivo
+					}
+				if (opcionDebug.contains("ast")) {
+					System.out.println(ast.arbolSTR());
+					//System.out.println("Debugging ast");
+					} //imprime debug <stage> a pantalla
 				}
 				
 			if (opcionTarget.equals("semantic") | opcionTarget.equals("irt") | opcionTarget.equals("codegen")){
