@@ -4,18 +4,18 @@ package compiler.scanner;
 public class MiToken {
 	//campos
 	private int linea;
-	private int tipo;
+	private String tipo;
 	private String texto;
 
 	//constructores
-	public MiToken(int linea, int tipo, String texto) {
+	public MiToken(int linea, String tipo, String texto) {
 		this.linea = linea;
-		this.tipo = tipo;
+		this.tipo = new String(tipo);
 		this.texto = new String(texto);
 	}
 	// metodos
 	public int getLinea(){return this.linea;}
-	public int getTipo(){return this.tipo;}
+	public String getTipo(){return this.tipo;}
 	public String getTexto(){return this.texto;}
 	
 	public String toString(){

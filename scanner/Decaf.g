@@ -20,10 +20,7 @@ RETURN		:  'return';
 BREAK		:  'break';
 CONTINUE	:  'continue';
 CALLOUT	    :  'callout';
-fragment BOOLEAN     :  'boolean';
-fragment INT         :  'int';
-
-
+//-----------------------------------------------
 TIPO        :  INT | BOOLEAN ;
 
 // LITERALES
@@ -33,40 +30,19 @@ STRING_LITERAL      : ('"') ('\u0020'..'\u007E')('\u0020'..'\u007E')* ('"') ;
 BOOL_LITERAL        : TRUE | FALSE;
 INT_LITERAL         : DECIMAL | HEXA;
 HEXA                : ('0x'|'0X') (DIGITO | 'A'..'F' | 'a'..'f' )+ ;
-fragment DECIMAL    : (DIGITO) (DIGITO)* ;
 
 
 // OPERADORES ARITMETICOS
 //-----------------------------------------------
-fragment MAS		:  '+';
 MENOS				:  '-';
-fragment PROD		:  '*';
-fragment DIV		:  '/';
-fragment MOD		:  '%';
 
 ARITH_OP    : MAS | MENOS | PROD | DIV | MOD;
 
-
-// OPERADORES RELACIONALES
-//-----------------------------------------------
-fragment MENORQ 		:  '<';
-fragment MAYORQ 		:  '>'; 
-fragment MENORIGQ 	:  '<=';  
-fragment MAYORIGQ 	:  '>=';
-
 REL_OP      : MENORQ | MAYORQ | MENORIGQ | MAYORIGQ;
-
-// OPERADORES DE COMPARACION
-//-----------------------------------------------
-fragment IGUAL 		:  '==';
-fragment DIFERENTE	:  '!=';
 
 EQ_OP       : IGUAL | DIFERENTE;
 
 // OPERADORES LOGICOS
-//-----------------------------------------------
-fragment AND :  '&&';
-fragment OR  :  '||';
 NOT :  '!';
 
 COND_OP     : AND | OR | NOT;
@@ -76,10 +52,6 @@ COND_OP     : AND | OR | NOT;
 ASIGNACION	:  '=';
 INCREMENTA  :  '+=';
 DECREMENTA  :  '-=';
-
-
-
-
   
 // AGRUPADORES
 //-----------------------------------------------
@@ -89,7 +61,6 @@ LBRACKET    :  '[' ;
 RBRACKET    :  ']' ;
 LPARENTH    :  '(' ;
 RPARENTH    :  ')' ;
-
 
 // IDENTIFICADOR
 //-----------------------------------------------
@@ -101,9 +72,29 @@ WS          : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines
 COMMA       : ',';
 COLON		: ':';
 SEMI        : ';';
-fragment DIGITO	    : '0'..'9';
-fragment ALFA        : ('a'..'z' | 'A'..'Z' | '_' );
 
 COMMENTLIN: '//' (~('\n'| '\r'))* {skip();};
 
-
+fragment DIGITO	    : '0'..'9';
+fragment ALFA        : ('a'..'z' | 'A'..'Z' | '_' );
+fragment BOOLEAN     :  'boolean';
+fragment INT         :  'int';
+fragment DECIMAL    : (DIGITO) (DIGITO)* ;
+fragment MAS		:  '+';
+fragment PROD		:  '*';
+fragment DIV		:  '/';
+fragment MOD		:  '%';
+// OPERADORES RELACIONALES
+//-----------------------------------------------
+fragment MENORQ 		:  '<';
+fragment MAYORQ 		:  '>'; 
+fragment MENORIGQ 	:  '<=';  
+fragment MAYORIGQ 	:  '>=';
+// OPERADORES DE COMPARACION
+//-----------------------------------------------
+fragment IGUAL 		:  '==';
+fragment DIFERENTE	:  '!=';
+// OPERADORES LOGICOS
+//-----------------------------------------------
+fragment AND :  '&&';
+fragment OR  :  '||';
