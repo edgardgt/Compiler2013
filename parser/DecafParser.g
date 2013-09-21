@@ -18,9 +18,12 @@ start       : CLASE ID LBRACE (field_decl)* (method_decl)* RBRACE             { 
 field_decl  : TIPO ( ID | ID LBRACKET INT_LITERAL RBRACKET ) 
                      (COMMA ( ID | ID LBRACKET INT_LITERAL RBRACKET ))* SEMI  { linea++; arbol.add("Declara Campos " + linea);} ;
 
-method_decl : (TIPO | VOID) ID LPARENTH (TIPO ID (COMMA TIPO ID)*)? 
+method_decl : (TIPO | VOID) ID LPARENTH (method_param)? 
                      RPARENTH block                                         { linea++; arbol.add("Declarar Metodos " + linea);} ;
 
+method_param : TIPO ID (COMMA TIPO ID)*
+					 
+					 
 block       : LBRACE (var_decl)* (statement)* RBRACE                          { linea++; arbol.add("Bloque "+linea);} ;
 
 var_decl    : TIPO (ID) (COMMA ID)* SEMI                                      { linea++; arbol.add("Declara Variable " + linea);} ;
