@@ -18,25 +18,25 @@ start       : CLASE ID LBRACE (field_decl)* (method_decl)* RBRACE             { 
 field_decl  : TIPO ( ID | ID LBRACKET INT_LITERAL RBRACKET ) 
                      (COMMA ( ID | ID LBRACKET INT_LITERAL RBRACKET ))* SEMI  { linea++; arbol.add("Declara Campos " + linea);} ;
 
-method_decl : ((TIPO | VOID) ID LPARENTH (TIPO ID (COMMA TIPO ID)*)? 
-                     RPARENTH block)                                          { linea++; arbol.add("Declarar Metodos " + linea);} ;
+method_decl : (TIPO | VOID) ID LPARENTH (TIPO ID (COMMA TIPO ID)*)? 
+                     RPARENTH block                                         { linea++; arbol.add("Declarar Metodos " + linea);} ;
 
 block       : LBRACE (var_decl)* (statement)* RBRACE                          { linea++; arbol.add("Bloque "+linea);} ;
 
 var_decl    : TIPO (ID) (COMMA ID)* SEMI                                      { linea++; arbol.add("Declara Variable " + linea);} ;
 
-statement   : (location assign_op expr SEMI
+statement   : location assign_op expr SEMI
             |  method_call SEMI
             |  IF LPARENTH expr RPARENTH block (ELSE block)?
             |  FOR ID ASIGNACION expr COMMA expr block 
             |  RETURN (expr)? SEMI
             |  BREAK SEMI
             |  CONTINUE SEMI
-            |  block)                                                         { linea++; arbol.add("Statement "+linea);} ;
+            |  block                                                       { linea++; arbol.add("Statement "+linea);} ;
 
-assign_op   : (ASIGNACION
+assign_op   : ASIGNACION
             |  INCREMENTA
-            |  DECREMENTA)                                                    { linea++; arbol.add("ASSIGN_Op "+linea);} ;
+            |  DECREMENTA                                                    { linea++; arbol.add("ASSIGN_Op "+linea);} ;
 
 method_call : (method_name LPARENTH expr (COMMA expr)* RPARENTH
             |  CALLOUT LPARENTH STRING_LITERAL COMMA 
@@ -45,27 +45,26 @@ method_call : (method_name LPARENTH expr (COMMA expr)* RPARENTH
 method_name : ID                                                              { linea++; arbol.add("Method_name "+linea);} ;
 
 location    : ID
-            | ID LBRACKET INT_LITERAL RBRACKET                                { linea++; arbol.add("Location "+linea);} ;
+            | ID LBRACKET expr RBRACKET                                { linea++; arbol.add("Location "+linea);} ;
 
-expr        : ((location 
+expr     :  location
             |  method_call 
 			|  literal 
-			|  MENOS expr 
+			|  expr bin_op expr
+			|  MENOS expr  
 			|  NOT expr 
-			|  LPARENTH expr RPARENTH) expr_2)                                { linea++; arbol.add("Expr   "+linea);} ;
-
-expr_2      : bin_op expr expr_2
-            |                                                                 { linea++; arbol.add("Expr_2 "+linea);} ;
+			|  LPARENTH expr RPARENTH                                { linea++; arbol.add("Expr   "+linea);} ;
 
 callout_arg : expr 
             | STRING_LITERAL                                                  { linea++; arbol.add("String_Literal "+linea);} ;
 
-bin_op      : (ARITH_OP 
+bin_op  :  ARITH_OP 
             |  REL_OP 
 			|  EQ_OP 
-			|  COND_OP)                                                       { linea++; arbol.add("Bin_Op "+linea);} ;
+			|  COND_OP
+			|  MENOS                                                                { linea++; arbol.add("Bin_Op "+linea);} ;
 
-literal     : (INT_LITERAL 
+literal     : INT_LITERAL 
             |  CHAR_LITERAL 
-            |  BOOL_LITERAL)                                                  { linea++; arbol.add("Literal "+linea);} ;
+            |  BOOL_LITERAL                                                 { linea++; arbol.add("Literal "+linea);} ;
 
