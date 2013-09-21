@@ -22,7 +22,7 @@ method_decl : (TIPO | VOID) ID LPARENTH (method_param)?
                      RPARENTH block                                         { linea++; arbol.add("Declarar Metodos " + linea);} ;
 
 method_param : TIPO ID (COMMA TIPO ID)*
-					 
+					 ;
 					 
 block       : LBRACE (var_decl)* (statement)* RBRACE                          { linea++; arbol.add("Bloque "+linea);} ;
 
