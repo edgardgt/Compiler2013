@@ -16,7 +16,17 @@ public class Ast{
 		tree = miParser.start();
 		treeString = new String(tree.toStringTree(miParser));
 		//System.out.println(tree.toStringTree(miParser)); 
-		//System.out.println(treeString); 
+		//System.out.println(treeString);
+		
+		AstVisitor visitor = new AstVisitor();
+		
+		Root root = (Root)visitor.visit(tree);
+		if (root == null){
+			System.out.println("No hay nada que imprimir.");
+		}else{
+			System.out.println(root == null);
+			root.print();
+		}
 	}
 /* Metodos Ast */
 	public String arbolSTR(){

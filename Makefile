@@ -1,4 +1,4 @@
-make: scanner\Decaf.java scanner\Decaf.class scanner\Scanner.class parser\DecafParser.java parser\DecafParser.class parser\CC4Parser.class ast\Ast.class semantic\Semantic.class irt\Irt.class codegen\Codegen.class opt\Algebraic.class opt\ConstantFolding.class lib\Debug.class lib\ErrorHandler.class Compiler.class
+make: scanner\Decaf.java scanner\Decaf.class scanner\Scanner.class parser\DecafParser.java parser\DecafParser.class parser\CC4Parser.class ast\Node.class ast\Root.class ast\AstVisitor.class ast\Ast.class semantic\Semantic.class irt\Irt.class codegen\Codegen.class opt\Algebraic.class opt\ConstantFolding.class lib\Debug.class lib\ErrorHandler.class Compiler.class
 	
 Compiler.class: Compiler.java
 	javac Compiler.java
@@ -13,13 +13,22 @@ scanner\Scanner.class: scanner\Scanner.java
 	javac scanner\Scanner.java
 
 parser\DecafParser.java: parser\DecafParser.g
-	java -jar c:\Javalib\antlr-4.1-complete.jar parser\DecafParser.g -lib scanner\
+	java -jar c:\Javalib\antlr-4.1-complete.jar  parser\DecafParser.g -visitor -lib scanner\
 	
 parser\DecafParser.class: parser\DecafParser.java
 	javac parser\DecafParser.java
 
 parser\CC4Parser.class: parser\CC4Parser.java
 	javac parser\CC4Parser.java
+
+ast\Node.class: ast\Node.java
+	javac ast\Node.java
+	
+ast\Root.class: ast\Root.java
+	javac ast\Root.java
+	
+ast\AstVisitor.class: ast\AstVisitor.java
+	javac ast\AstVisitor.java
 	
 ast\Ast.class: ast\Ast.java
 	javac ast\Ast.java
@@ -50,7 +59,7 @@ clean:
 	del scanner\Scanner.class
 	del scanner\*.class scanner\Decaf.java scanner\*.tokens
 	del parser\*.class parser\Decaf*.java parser\Decaf*.tokens
-	del ast\Ast.class
+	del ast\*.class
 	del semantic\Semantic.class
 	del irt\Irt.class
 	del codegen\Codegen.class
