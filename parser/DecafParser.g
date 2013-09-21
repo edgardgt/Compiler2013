@@ -38,7 +38,7 @@ assign_op   : ASIGNACION
             |  INCREMENTA
             |  DECREMENTA                                                    { linea++; arbol.add("ASSIGN_Op "+linea);} ;
 
-method_call : method_name LPARENTH expr (COMMA expr)* RPARENTH
+method_call : method_name LPARENTH (expr (COMMA expr)*)? RPARENTH
             |  CALLOUT LPARENTH STRING_LITERAL COMMA 
                      (callout_arg (COMMA callout_arg)*)? RPARENTH               { linea++; arbol.add("Method_Call "+linea);} ;
 
