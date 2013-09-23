@@ -156,7 +156,7 @@ public class Compiler{
 
 			//prepara el archivo de salida para escritura
 			if (archivoSalida.equals("")){archivoSalida = "salidadefault.txt";} // escribe salida a archivo default
-			if (opcionTarget.equals("")){opcionTarget = "parse";} //si el usuario no coloca target, el default para esta fase es "parse"
+			if (opcionTarget.equals("")){opcionTarget = "ast";} //si el usuario no coloca target, el default para esta fase es "parse"
 			fileSalida = new File(archivoSalida);
 			FileWriter w = new FileWriter(fileSalida);
 			BufferedWriter bw = new BufferedWriter(w);
