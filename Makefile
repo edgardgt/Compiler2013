@@ -26,6 +26,12 @@ ast\Node.class: ast\Node.java
 	
 ast\Root.class: ast\Root.java
 	javac ast\Root.java
+	javac ast\BinOp.java
+	javac ast\IntLiteral.java
+	javac ast\Identificador.java
+	javac ast\MethodDcl.java
+	javac ast\Parametro.java
+	javac ast\Nulo.java
 	
 ast\AstVisitor.class: ast\AstVisitor.java
 	javac ast\AstVisitor.java
