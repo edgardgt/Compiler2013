@@ -24,7 +24,7 @@ public class Ast{
 		if (root == null){
 			System.out.println("No hay nada que imprimir.");
 		}else{
-			System.out.println(root == null);
+			//System.out.println(root == null); //solo para debug
 			root.print();
 		}
 	}

@@ -14,12 +14,55 @@ public class AstVisitor extends DecafParserBaseVisitor<Node>{
 		
 		List<DecafParser.Method_declContext> lista = ctx.method_decl();
 		for(DecafParser.Method_declContext e : lista){
-			System.out.println(e.getText());
-			//root.add(visit(e));
+			//System.out.println(e.getText());
+			
+			//visit(e);
+			root.add(visit(e));
 		}
 		
 		//return visitChildren(ctx); 
 		return root;		
+	}
+	
+	@Override 
+	public Node visitMethod_decl(DecafParser.Method_declContext ctx) { 
+		System.out.println ("ingreso al visitMethod_decl");
+		/*
+		System.out.println ("tipo -> " + ctx.TIPO());
+		System.out.println ("ID -> " + ctx.ID());
+		System.out.println ("void -> " + ctx.VOID());
+		System.out.println ("bloque -> " + ctx.block());
+		System.out.println ("method_param -> " + ctx.method_param());		
+		*/
+
+		Node parametros = ctx.method_param() == null? (new Nulo()) : visit(ctx.method_param());
+		
+		TerminalNode tipo = ctx.TIPO() == null ? ctx.VOID() : ctx.TIPO();
+		//return new MethodDcl(tipo.getText(), ctx.ID().getText(), new Identificador("params"), new Identificador("bloque"));
+		return new MethodDcl(tipo.getText(), ctx.ID().getText(), parametros, new Identificador("bloque"));
+
+		//return visit(ctx.method_param());
+		//return visitChildren(ctx); 
+	}
+	
+	@Override 
+	public Node visitMethod_param(DecafParser.Method_paramContext ctx) {
+		System.out.println ("ingreso al visitMethod_param" + ctx.ID().size());
+
+		//List<TerminalNode> lista = ctx.ID();
+		
+		//List<TerminalNode> lista2 = ctx.TIPO();
+		
+		//for(TerminalNode e : lista, TerminalNode e2 : lista2){
+		//	System.out.println(e.getText()+ "<-->" + e2.getText());
+		//	//root.add(visit(e));
+		//}
+		
+		//return visitChildren(ctx);
+		System.out.println("ID-> " + ctx.TIPO(0).getText() + ", TIPO-> " +ctx.ID(0).getText());
+		return new Parametro(ctx.TIPO(0).getText(), ctx.ID(0).getText());
+
+		//return visitChildren(ctx); 
 	}
 	/*
 	@Override
