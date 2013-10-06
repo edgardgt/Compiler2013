@@ -32,6 +32,8 @@ ast\Root.class: ast\Root.java
 	javac ast\MethodDcl.java
 	javac ast\Parametro.java
 	javac ast\Nulo.java
+	javac ast\Bloque.java
+	javac ast\NLista.java
 	
 ast\AstVisitor.class: ast\AstVisitor.java
 	javac ast\AstVisitor.java

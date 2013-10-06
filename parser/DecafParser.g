@@ -28,22 +28,26 @@ block       : LBRACE (var_decl)* (statement)* RBRACE                          { 
 
 var_decl    : TIPO (ID) (COMMA ID)* SEMI                                      { linea++; arbol.add("Declara Variable " + linea);} ;
 
-statement   : location assign_op expr SEMI
-            |  method_call SEMI
-            |  IF LPARENTH expr RPARENTH block (ELSE block)?
-            |  FOR ID ASIGNACION expr COMMA expr block 
-            |  RETURN (expr)? SEMI
-            |  BREAK SEMI
-            |  CONTINUE SEMI
-            |  block                                                       { linea++; arbol.add("Statement "+linea);} ;
+statement   : location assign_op expr SEMI									#sentencia1
+            |  method_call SEMI												#sentencia2
+            |  IF LPARENTH expr RPARENTH block (ELSE block)?				#sentencia3
+            |  FOR ID ASIGNACION expr COMMA expr block	 					#sentencia4
+            |  RETURN (expr)? SEMI											#sentencia5
+            |  BREAK SEMI													#sentencia6
+            |  CONTINUE SEMI												#sentencia7
+            |  block                                                       	#sentencia8
+			;
+			//{ linea++; arbol.add("Statement "+linea);};
 
 assign_op   : ASIGNACION
             |  INCREMENTA
             |  DECREMENTA                                                    { linea++; arbol.add("ASSIGN_Op "+linea);} ;
 
-method_call : method_name LPARENTH (expr (COMMA expr)*)? RPARENTH
-            |  CALLOUT LPARENTH STRING_LITERAL COMMA 
-                     (callout_arg (COMMA callout_arg)*)? RPARENTH               { linea++; arbol.add("Method_Call "+linea);} ;
+method_call : method_name LPARENTH (expr (COMMA expr)*)? RPARENTH			#method_call1
+            |  CALLOUT LPARENTH STRING_LITERAL COMMA
+                     (callout_arg (COMMA callout_arg)*)? RPARENTH			#method_call2
+			;
+			//{ linea++; arbol.add("Method_Call "+linea);} ;
 
 method_name : ID                                                              { linea++; arbol.add("Method_name "+linea);} ;
 
