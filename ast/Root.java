@@ -16,7 +16,7 @@ public class Root extends Node{
 	
 	public void print(String padding){
 		for(Node n : list){
-			System.out.println("exp ->");
+			//System.out.println("exp ->");
 			n.print(padding + "\t");
 		}
 	}

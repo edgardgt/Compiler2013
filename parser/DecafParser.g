@@ -39,9 +39,11 @@ statement   : location assign_op expr SEMI									#sentencia1
 			;
 			//{ linea++; arbol.add("Statement "+linea);};
 
-assign_op   : ASIGNACION
-            |  INCREMENTA
-            |  DECREMENTA                                                    { linea++; arbol.add("ASSIGN_Op "+linea);} ;
+assign_op   : ASIGNACION													#asignacion
+            |  INCREMENTA													#incremento
+            |  DECREMENTA                                                   #decremento
+			;
+			//{ linea++; arbol.add("ASSIGN_Op "+linea);} ;
 
 method_call : method_name LPARENTH (expr (COMMA expr)*)? RPARENTH			#method_call1
             |  CALLOUT LPARENTH STRING_LITERAL COMMA

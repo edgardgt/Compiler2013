@@ -10,18 +10,41 @@ public class AstVisitor extends DecafParserBaseVisitor<Node>{
 	@Override
 	public Node visitStart(DecafParser.StartContext ctx) {
 		Root root = new Root();
-		System.out.println("ingreso a AST->");
+		//System.out.println("ingreso a AST->");
+
+		NLista declaraCampos = new NLista();
+		List<DecafParser.Field_declContext> lista0 = ctx.field_decl();
+		for(DecafParser.Field_declContext e : lista0){
+			//System.out.println(e.getText());
+			//visit(e);
+			declaraCampos.add(visit(e));
+		}
 		
+		NLista declaraMetodos = new NLista();
 		List<DecafParser.Method_declContext> lista = ctx.method_decl();
 		for(DecafParser.Method_declContext e : lista){
 			//System.out.println(e.getText());
 			
 			//visit(e);
-			root.add(visit(e));
+			declaraMetodos.add(visit(e));
 		}
 		
+		root.add(new ClassMain(ctx.ID().getText(), declaraCampos, declaraMetodos));
 		//return visitChildren(ctx); 
 		return root;		
+	}
+	
+	@Override 
+	public Node visitField_decl(DecafParser.Field_declContext ctx) { 
+		//System.out.println(ctx);
+		int cantVar = ctx.ID().size();
+		String vars;
+		vars = ctx.ID(0).getText();
+		for (int i = 1; i<cantVar; i++){
+			vars = vars + ", " + ctx.ID(i).getText();
+		}
+		return new Variable(ctx.TIPO().getText(), vars); //ctx.ID(0).getText());
+		//return visitChildren(ctx); 
 	}
 	
 	@Override 
@@ -50,32 +73,28 @@ public class AstVisitor extends DecafParserBaseVisitor<Node>{
 	public Node visitMethod_param(DecafParser.Method_paramContext ctx) {
 		//System.out.println ("ingreso al visitMethod_param" + ctx.ID().size());
 
-		//List<TerminalNode> lista = ctx.ID();
+		int tamanioLista = ctx.ID().size();
+		NLista parametros = new NLista();
 		
-		//List<TerminalNode> lista2 = ctx.TIPO();
-		
-		//for(TerminalNode e : lista, TerminalNode e2 : lista2){
-		//	System.out.println(e.getText()+ "<-->" + e2.getText());
-		//	//root.add(visit(e));
-		//}
-		
-		//return visitChildren(ctx);
-		
-		//System.out.println("ID-> " + ctx.TIPO(0).getText() + ", TIPO-> " +ctx.ID(0).getText());
-		return new Parametro(ctx.TIPO(0).getText(), ctx.ID(0).getText());
+		for (int i=0;i<tamanioLista; i++){
+			//System.out.println("tipo " + ctx.TIPO(i).getText());
+			//System.out.println("id " + ctx.ID(i).getText());
+			parametros.add(new Parametro(ctx.TIPO(i).getText(), ctx.ID(i).getText()));
+			
+		}
 
-		//return visitChildren(ctx); 
+		return parametros;
 	}
 	
 	@Override 
 	public Node visitBlock(DecafParser.BlockContext ctx) { 
-		System.out.println("ingreso a bloque." + ctx.var_decl());
+		//System.out.println("ingreso a bloque." + ctx.var_decl());
 		
 		NLista variables = new NLista();
 		List<DecafParser.Var_declContext> lista = ctx.var_decl();
 		
 		for(DecafParser.Var_declContext e : lista){
-			System.out.println(e.getText());
+			//System.out.println(e.getText());
 			variables.add(visit(e)); // visitVar_decl
 		}
 
@@ -84,7 +103,7 @@ public class AstVisitor extends DecafParserBaseVisitor<Node>{
 		
 		for(DecafParser.StatementContext e : lista2){
 			System.out.println(e.getText() + "sentencia");
-			sentencias.add(visit(e)); // visitVar_decl
+			sentencias.add(visit(e)); //
 		}
 
 		return new Bloque(variables, sentencias);
@@ -92,12 +111,26 @@ public class AstVisitor extends DecafParserBaseVisitor<Node>{
 	
 	@Override 
 	public Node visitVar_decl(DecafParser.Var_declContext ctx) { 
-		return new Variable(ctx.TIPO().getText(), ctx.ID(0).getText());
+		int cantVar = ctx.ID().size();
+		String vars;
+		vars = ctx.ID(0).getText();
+		for (int i = 1; i<cantVar; i++){
+			vars = vars + ", " + ctx.ID(i).getText();
+		}
+		return new Variable(ctx.TIPO().getText(), vars); //ctx.ID(0).getText());
 	}
 
+	@Override
+	public Node visitSentencia3(DecafParser.Sentencia3Context ctx) { 
+		//System.out.println ("condicion " + ctx.expr());
+		//System.out.println ("alternativa" + ctx.block(0));
+		return new SentenciaIF(new IntLiteral("1"), visit(ctx.block(0)), ctx.block().size() == 1? (new Nulo()) : visit(ctx.block(0)));//visitChildren(ctx); 
+	}
+	
+	
 	@Override 
 	public Node visitSentencia8(DecafParser.Sentencia8Context ctx) { 
-	return visitChildren(ctx); 
+		return visitChildren(ctx); 
 	}
 	
 	/*
