@@ -34,6 +34,11 @@ ast\Root.class: ast\Root.java
 	javac ast\Nulo.java
 	javac ast\Bloque.java
 	javac ast\NLista.java
+<<<<<<< HEAD
+=======
+	javac ast\ClassMain.java
+	javac ast\SentenciaIF.java
+>>>>>>> Se agregaron clases de sentencia IF
 	
 ast\AstVisitor.class: ast\AstVisitor.java
 	javac ast\AstVisitor.java
