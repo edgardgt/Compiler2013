@@ -41,6 +41,7 @@ ast\Root.class: ast\Root.java
 	javac ast\Return.java
 	javac ast\MethodCall.java
 	javac ast\Asignacion.java
+	javac ast\SentenciaFor.java
 	
 ast\AstVisitor.class: ast\AstVisitor.java
 	javac ast\AstVisitor.java
