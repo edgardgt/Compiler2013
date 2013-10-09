@@ -28,6 +28,7 @@ ast\Root.class: ast\Root.java
 	javac ast\Root.java
 	javac ast\BinOp.java
 	javac ast\IntLiteral.java
+	javac ast\CharLiteral.java
 	javac ast\Identificador.java
 	javac ast\MethodDcl.java
 	javac ast\Parametro.java
@@ -36,6 +37,10 @@ ast\Root.class: ast\Root.java
 	javac ast\NLista.java
 	javac ast\ClassMain.java
 	javac ast\SentenciaIF.java
+	javac ast\Location.java
+	javac ast\Return.java
+	javac ast\MethodCall.java
+	javac ast\Asignacion.java
 	
 ast\AstVisitor.class: ast\AstVisitor.java
 	javac ast\AstVisitor.java

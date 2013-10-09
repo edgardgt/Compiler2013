@@ -1,7 +1,7 @@
 package compiler.ast;
 
-import java.util.List;
-import java.util.LinkedList;
+//import java.util.List;
+//import java.util.LinkedList;
 
 public class SentenciaIF extends Node{
 	private Node condicion;

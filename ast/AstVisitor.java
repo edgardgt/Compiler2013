@@ -36,16 +36,29 @@ public class AstVisitor extends DecafParserBaseVisitor<Node>{
 	
 	@Override 
 	public Node visitField_decl(DecafParser.Field_declContext ctx) { 
-		//System.out.println(ctx);
+		NLista variables = new NLista();
 		int cantVar = ctx.ID().size();
-		String vars;
-		vars = ctx.ID(0).getText();
-		for (int i = 1; i<cantVar; i++){
-			vars = vars + ", " + ctx.ID(i).getText();
+		for (int i = 0; i<cantVar; i++){
+			//vars = vars + ", " + ctx.ID(i).getText();
+			variables.add(new Variable(ctx.TIPO().getText(), ctx.ID(i).getText()));
 		}
-		return new Variable(ctx.TIPO().getText(), vars); //ctx.ID(0).getText());
+		
+		int cantArray = ctx.array().size();
+		for (int i = 0; i<cantArray; i++){
+			//System.out.println(ctx.array(i).getText());
+			variables.add(new Variable(ctx.TIPO().getText(), ctx.array(i).ID().getText(), ctx.array(i).INT_LITERAL().getText()));
+		}
+		
+		//return new Variable(ctx.TIPO().getText(), vars); //ctx.ID(0).getText());
+		return variables;
 		//return visitChildren(ctx); 
 	}
+	/*
+	@Override 
+	public Node visitArray(DecafParser.ArrayContext ctx) { 
+		return new Variable(ctx.TIPO().getText(), vars);
+	}
+	*/
 	
 	@Override 
 	public Node visitMethod_decl(DecafParser.Method_declContext ctx) { 
@@ -102,7 +115,7 @@ public class AstVisitor extends DecafParserBaseVisitor<Node>{
 		List<DecafParser.StatementContext> lista2 = ctx.statement();
 		
 		for(DecafParser.StatementContext e : lista2){
-			System.out.println(e.getText() + "sentencia");
+			//System.out.println(e.getText() + "sentencia");
 			sentencias.add(visit(e)); //
 		}
 
@@ -120,14 +133,125 @@ public class AstVisitor extends DecafParserBaseVisitor<Node>{
 		return new Variable(ctx.TIPO().getText(), vars); //ctx.ID(0).getText());
 	}
 
-	@Override
-	public Node visitSentencia3(DecafParser.Sentencia3Context ctx) { 
-		//System.out.println ("condicion " + ctx.expr());
-		//System.out.println ("alternativa" + ctx.block(0));
-		return new SentenciaIF(new IntLiteral("1"), visit(ctx.block(0)), ctx.block().size() == 1? (new Nulo()) : visit(ctx.block(0)));//visitChildren(ctx); 
+	//Asignacion
+	@Override 
+	public Node visitSentencia1(DecafParser.Sentencia1Context ctx) { 
+		return new Asignacion(visit(ctx.location()), ctx.assign_op().getText(), visit(ctx.expr()));
+		//return visitChildren(ctx); 
 	}
 	
+	//IF:
+	@Override
+	public Node visitSentencia3(DecafParser.Sentencia3Context ctx) { 
+		System.out.println ("condicion " + ctx.expr());
+		//System.out.println ("alternativa" + ctx.block(0));
+		return new SentenciaIF(visit(ctx.expr()), visit(ctx.block(0)), ctx.block().size() == 1? (new Nulo()) : visit(ctx.block(1)));//visitChildren(ctx); 
+	}
 	
+	//expr_binOp: operacion binaria
+	@Override 
+	public Node visitExpr_binOp(DecafParser.Expr_binOpContext ctx) {
+		//System.out.println("operador" + ctx.bin_op().getText());
+		//System.out.println(ctx.expr(0).getText());
+		//System.out.println(ctx.expr(1).getText());
+		return new BinOp(ctx.bin_op().getText(), visit(ctx.expr(0)), visit(ctx.expr(1)));
+		//return (new Nulo());
+	}
+	
+	//expr_menosExp: menos unario
+	@Override 
+	public Node visitExpr_menosExp(DecafParser.Expr_menosExpContext ctx) { 
+		return new BinOp("-", new Nulo(), visit(ctx.expr()));
+		//return visitChildren(ctx); 
+	}
+	
+	@Override 
+	public Node visitExpr_expr(DecafParser.Expr_exprContext ctx) { 
+		return visit(ctx.expr()); 
+	}
+	
+	@Override 
+	public Node visitLiteral_int(DecafParser.Literal_intContext ctx) {
+		//System.out.println("literal int: " + ctx.INT_LITERAL());
+		return new IntLiteral(ctx.INT_LITERAL().getText());
+	}
+	
+	@Override 
+	public Node visitLiteral_char(DecafParser.Literal_charContext ctx) { 
+		return new CharLiteral(ctx.CHAR_LITERAL().getText());
+	}
+	
+	// revisar aun no jala:
+	@Override 
+	public Node visitLiteral_boolean(DecafParser.Literal_booleanContext ctx) { 
+		return new CharLiteral(ctx.BOOL_LITERAL().getText());
+		//return visitChildren(ctx); 
+	}
+	
+	// Call strliteral
+	@Override 
+	public Node visitCall_strlit(DecafParser.Call_strlitContext ctx) { 
+		return new CharLiteral(ctx.STRING_LITERAL().getText());
+		//return visitChildren(ctx); 
+	}
+	
+	// Call expr
+	@Override 
+	public Node visitCall_expr(DecafParser.Call_exprContext ctx) { 
+		return visit(ctx.expr()); 
+	}
+	
+	//Llamada a Metodo produccion1:
+	@Override 
+	public Node visitMethod_call1(DecafParser.Method_call1Context ctx) {
+		NLista expresiones = new NLista();
+		List<DecafParser.ExprContext> lista = ctx.expr();
+		
+		for(DecafParser.ExprContext e : lista){
+			//System.out.println(e.getText());
+			expresiones.add(visit(e)); // visitVar_decl
+		}
+		
+		return (new MethodCall(ctx.method_name().getText(), expresiones));
+		//return visitChildren(ctx); 
+	}
+	
+	//Llamada a Metodo produccion2:
+	@Override 
+	public Node visitMethod_call2(DecafParser.Method_call2Context ctx) { 
+		NLista callout_list = new NLista();
+		List<DecafParser.Callout_argContext> lista = ctx.callout_arg();
+		
+		for(DecafParser.Callout_argContext e : lista){
+			//System.out.println(e.getText());
+			callout_list.add(visit(e)); // visitVar_decl
+		}
+		
+		return (new MethodCall(ctx.STRING_LITERAL().getText(), callout_list));
+		//return visitChildren(ctx); 
+	}
+	
+	@Override 
+	public Node visitId1(DecafParser.Id1Context ctx) { 
+		return new Identificador(ctx.ID().getText());
+		//return visitChildren(ctx); 
+	}
+	
+	@Override 
+	public Node visitId2(DecafParser.Id2Context ctx) { 
+		return new Location(ctx.ID().getText(), visit(ctx.expr()));
+		//return visitChildren(ctx); 
+	}
+
+	//Return
+	@Override 
+	public Node visitSentencia5(DecafParser.Sentencia5Context ctx) { 
+		//System.out.println ("rtrn >" + ctx.expr() + "<");
+		return new Return(visit(ctx.expr()));
+		//return visitChildren(ctx); 
+	}
+	
+	//Block
 	@Override 
 	public Node visitSentencia8(DecafParser.Sentencia8Context ctx) { 
 		return visitChildren(ctx); 

@@ -15,9 +15,11 @@ int linea = 0;
 }
 start       : CLASE ID LBRACE (field_decl)* (method_decl)* RBRACE             { linea++; arbol.add("Inicio "+linea);} ;
 
-field_decl  : TIPO ( ID | ID LBRACKET INT_LITERAL RBRACKET ) 
-                     (COMMA ( ID | ID LBRACKET INT_LITERAL RBRACKET ))* SEMI  { linea++; arbol.add("Declara Campos " + linea);} ;
+field_decl  : TIPO ( ID | array ) 
+                     (COMMA ( ID | array ))* SEMI  { linea++; arbol.add("Declara Campos " + linea);} ;
 
+array		: ID LBRACKET INT_LITERAL RBRACKET;
+					 
 method_decl : (TIPO | VOID) ID LPARENTH (method_param)? 
                      RPARENTH block                                         { linea++; arbol.add("Declarar Metodos " + linea);} ;
 
@@ -53,19 +55,25 @@ method_call : method_name LPARENTH (expr (COMMA expr)*)? RPARENTH			#method_call
 
 method_name : ID                                                              { linea++; arbol.add("Method_name "+linea);} ;
 
-location    : ID
-            | ID LBRACKET expr RBRACKET                                { linea++; arbol.add("Location "+linea);} ;
+location    : ID															#id1
+            | ID LBRACKET expr RBRACKET                                		#id2
+			;
+			//{ linea++; arbol.add("Location "+linea);} ;
 
-expr     :  location
-            |  method_call 
-			|  literal 
-			|  expr bin_op expr
-			|  MENOS expr  
-			|  NOT expr 
-			|  LPARENTH expr RPARENTH                                { linea++; arbol.add("Expr   "+linea);} ;
+expr     :  location														#expr_location
+            |  method_call 													#expr_methodCall
+			|  literal														#expr_literal
+			|  expr bin_op expr												#expr_binOp
+			|  MENOS expr													#expr_menosExp
+			|  NOT expr 													#expr_notExp
+			|  LPARENTH expr RPARENTH                                		#expr_expr
+			;
+			//{ linea++; arbol.add("Expr   "+linea);} ;
 
-callout_arg : expr 
-            | STRING_LITERAL                                                  { linea++; arbol.add("String_Literal "+linea);} ;
+callout_arg : expr 															#call_expr
+            | STRING_LITERAL                                                #call_strlit
+			;
+			//{ linea++; arbol.add("String_Literal "+linea);} ;
 
 bin_op  :  ARITH_OP 
             |  REL_OP 
@@ -73,7 +81,9 @@ bin_op  :  ARITH_OP
 			|  COND_OP
 			|  MENOS                                                                { linea++; arbol.add("Bin_Op "+linea);} ;
 
-literal     : INT_LITERAL 
-            |  CHAR_LITERAL 
-            |  BOOL_LITERAL                                                 { linea++; arbol.add("Literal "+linea);} ;
+literal     : INT_LITERAL 													#literal_int
+            |  CHAR_LITERAL 												#literal_char
+            |  BOOL_LITERAL                                                 #literal_boolean
+			;
+			//{ linea++; arbol.add("Literal "+linea);} ;
 
