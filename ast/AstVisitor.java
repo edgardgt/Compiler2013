@@ -140,12 +140,27 @@ public class AstVisitor extends DecafParserBaseVisitor<Node>{
 		//return visitChildren(ctx); 
 	}
 	
+	// 
+	@Override
+	public Node visitSentencia2(DecafParser.Sentencia2Context ctx) { 
+		return visit(ctx.method_call());
+		//return visitChildren(ctx); 
+	}
+	
 	//IF:
 	@Override
 	public Node visitSentencia3(DecafParser.Sentencia3Context ctx) { 
-		System.out.println ("condicion " + ctx.expr());
+		//System.out.println ("condicion " + ctx.expr());
 		//System.out.println ("alternativa" + ctx.block(0));
 		return new SentenciaIF(visit(ctx.expr()), visit(ctx.block(0)), ctx.block().size() == 1? (new Nulo()) : visit(ctx.block(1)));//visitChildren(ctx); 
+	}
+	
+	//SentenciaFor:
+	@Override
+	public Node visitSentencia4(DecafParser.Sentencia4Context ctx) { 
+		BinOp asignacion = new BinOp("=", new CharLiteral(ctx.ID().getText()), visit(ctx.expr(0)));
+		return new SentenciaFor(asignacion, visit(ctx.expr(1)), visit(ctx.block()));
+		//return visitChildren(ctx); 
 	}
 	
 	//expr_binOp: operacion binaria
@@ -223,7 +238,7 @@ public class AstVisitor extends DecafParserBaseVisitor<Node>{
 		List<DecafParser.Callout_argContext> lista = ctx.callout_arg();
 		
 		for(DecafParser.Callout_argContext e : lista){
-			//System.out.println(e.getText());
+			System.out.println(e.getText());
 			callout_list.add(visit(e)); // visitVar_decl
 		}
 		

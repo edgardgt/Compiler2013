@@ -20,6 +20,7 @@ RETURN		:  'return';
 BREAK		:  'break';
 CONTINUE	:  'continue';
 CALLOUT	    :  'callout';
+COMMA       : ',';
 //-----------------------------------------------
 TIPO        :  INT | BOOLEAN ;
 
@@ -64,7 +65,7 @@ ID          : (ALFA)(ALFA|DIGITO)*;
 // OTROS
 //-----------------------------------------------
 WS          : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines
-COMMA       : ',';
+
 COLON		: ':';
 SEMI        : ';';
 
