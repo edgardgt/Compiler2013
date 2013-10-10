@@ -26,11 +26,16 @@ TIPO        :  INT | BOOLEAN ;
 
 // LITERALES
 //-----------------------------------------------
-CHAR_LITERAL        : ('\'')('\u0020'..'\u007E')('\'') ;
-STRING_LITERAL      : ('"') ('\u0020'..'\u007E')('\u0020'..'\u007E')* ('"') ;
+//CHAR_LITERAL        : ('\'')(('\u0020')|('\u0021')|('\u0023'..'\u0026')|('\u0028'..'\u007E'))('\'') ;
+//STRING_LITERAL      : ('"') (('\u0020')|('\u0021')|('\u0023'..'\u0026')|('\u0028'..'\u007E'))(('\u0020')|('\u0021')|('\u0023'..'\u0026')|('\u0028'..'\u007E'))* ('"') ;
+
+CHAR_LITERAL        : ('\'')CHAR('\'') ;
+STRING_LITERAL      : ('"') CHAR CHAR* ('"') ;
 BOOL_LITERAL        : TRUE | FALSE;
 INT_LITERAL          : (DECIMAL | HEXA);   //{System.out.println("INT_LITERAL");};
-HEXA                      : ('0x'|'0X') (DIGITO | 'A'..'F' | 'a'..'f' )+ ;
+HEXA                 : ('0x'|'0X') (DIGITO | 'A'..'F' | 'a'..'f' )+ ;
+
+fragment CHAR        :(('\u0020')|('\u0021')|('\u0023'..'\u0026')|('\u0028'..'\u007E'));
 
 
 // OPERADORES ARITMETICOS
