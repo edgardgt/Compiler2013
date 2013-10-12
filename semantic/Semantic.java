@@ -7,7 +7,8 @@ public class Semantic{
 
 /* Construtor Semantic*/
 	public Semantic (Ast archivo)throws Exception  {
-		
+		System.out.println("Ingreso al semantic");
+		//archivo.arbolAST().print();
 	}
 /* Metodos Semantic */
 }
