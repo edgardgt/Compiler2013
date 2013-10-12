@@ -8,6 +8,7 @@ public class Ast{
 	DecafParser miParser;
 	ParseTree tree;
 	String treeString;
+	Root root;
 /* Construtor Ast*/
 	public Ast (CC4Parser archivo)throws Exception  {
 		miParser = archivo.Parser();
@@ -20,16 +21,22 @@ public class Ast{
 		
 		AstVisitor visitor = new AstVisitor();
 		
-		Root root = (Root)visitor.visit(tree);
+		root = (Root)visitor.visit(tree);
+		/*
 		if (root == null){
 			System.out.println("No hay nada que imprimir.");
 		}else{
 			//System.out.println(root == null); //solo para debug
 			root.print();
 		}
+		*/
 	}
 /* Metodos Ast */
 	public String arbolSTR(){
 		return treeString;
+	}
+	
+	public Root arbolAST(){
+		return root;
 	}
 }

@@ -156,7 +156,7 @@ public class Compiler{
 
 			//prepara el archivo de salida para escritura
 			if (archivoSalida.equals("")){archivoSalida = "salidadefault.txt";} // escribe salida a archivo default
-			if (opcionTarget.equals("")){opcionTarget = "ast";} //si el usuario no coloca target, el default para esta fase es "parse"
+			if (opcionTarget.equals("")){opcionTarget = "semantic";} //si el usuario no coloca target, el default para esta fase es "parse"
 			fileSalida = new File(archivoSalida);
 			FileWriter w = new FileWriter(fileSalida);
 			BufferedWriter bw = new BufferedWriter(w);
@@ -203,7 +203,8 @@ public class Compiler{
 						wr.write(ast.arbolSTR()); // impresion a archivo
 					}
 				if (opcionDebug.contains("ast")) {
-					System.out.println(ast.arbolSTR());
+					//System.out.println(ast.arbolSTR());
+					ast.arbolAST().print();
 					//System.out.println("Debugging ast");
 					} //imprime debug <stage> a pantalla
 				}
