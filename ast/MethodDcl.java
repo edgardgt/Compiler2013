@@ -15,11 +15,26 @@ public class MethodDcl extends Node{
 		params = p;
 		bloque = b;
 	}
-	
+// Metodos	
 	public void print(String padding){
 		System.out.println(padding + "metodo");
 		System.out.println(padding + "\t" + id);
 		params.print(padding + "\t");
 		bloque.print(padding + "\t");
+	}
+	
+	public String retTipo(){
+		return tipo;
+	}
+	
+	public String retId(){
+		return id;
+	}
+	
+	public Node retParams(){
+		return params;
+	}	
+	public Node retBloque(){
+		return bloque;
 	}
 } 

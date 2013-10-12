@@ -9,9 +9,18 @@ public class Parametro extends Node{
 		id = i;
 	}
 	
+//Metodos
 	public void print(String padding){
 		System.out.println(padding + "param");
 		System.out.println(padding + "\t" + tipo);
 		System.out.println(padding + "\t" + id);
+	}
+	
+	public String retTipo(){
+		return tipo;
+	}
+	
+	public String retId(){
+		return id;
 	}
 } 

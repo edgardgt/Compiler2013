@@ -13,12 +13,24 @@ public class SentenciaFor extends Node{
 		step = s;
 		bloque = b;
 	}
-	
+//Metodos
 	public void print(String padding){
 		System.out.println(padding + "for");
 		init.print(padding + "\t");
 		System.out.println(padding + "\t"+"step");
 		step.print(padding + "\t\t");
 		bloque.print(padding + "\t");
+	}
+	
+	public Node retInit(){
+		return init;
+	}
+	
+	public Node retStep(){
+		return step;
+	}
+	
+	public Node retBloque(){
+		return bloque;
 	}
 } 

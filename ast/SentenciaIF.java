@@ -20,4 +20,16 @@ public class SentenciaIF extends Node{
 		consecuencia.print(padding + "\t");
 		alternativa.print(padding + "\t");
 	}
+	
+	public Node retCondicion(){
+		return condicion;
+	}
+	
+	public Node retConsecuencia(){
+		return consecuencia;
+	}
+	
+	public Node retAlternativa(){
+		return alternativa;
+	}
 } 

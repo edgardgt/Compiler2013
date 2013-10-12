@@ -11,10 +11,18 @@ public class MethodCall extends Node{
 		id = n;
 		expr = e;
 	}
-	
+// Metodos	
 	public void print(String padding){
 		System.out.println(padding + "metodo_call");
 		System.out.println(padding + "\t" + id);
 		expr.print(padding + "\t");
+	}
+
+	public String retId(){
+		return id;
+	}
+	
+	public Node retExpr(){
+		return expr;
 	}
 } 

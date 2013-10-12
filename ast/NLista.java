@@ -13,7 +13,7 @@ public class NLista extends Node{
 	public void add(Node node){
 		list.add(node);
 	}
-	
+//Metodos
 	public void print(String padding){
 		for(Node n : list){
 			//System.out.println("exp ->");
@@ -23,6 +23,10 @@ public class NLista extends Node{
 	
 	public void print(){
 		print("");
+	}
+	
+	public List<Node> retList(){
+		return  list;
 	}
 } 
  

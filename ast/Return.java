@@ -6,9 +6,14 @@ public class Return extends Node{
 	public Return(Node e){
 		expr = e;
 	}
-	
+//Metodos
 	public void print(String padding){
 		System.out.println(padding + "return");
 		expr.print(padding + "\t");
+	}
+	
+
+	public Node retExpr(){
+		return expr;
 	}
 }

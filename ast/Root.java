@@ -24,6 +24,10 @@ public class Root extends Node{
 	public void print(){
 		print("");
 	}
+	
+	public List<Node> retList(){
+		return list;
+	}
 } 
  
  
