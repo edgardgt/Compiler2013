@@ -24,7 +24,6 @@ public class AstVisitor extends DecafParserBaseVisitor<Node>{
 		List<DecafParser.Method_declContext> lista = ctx.method_decl();
 		for(DecafParser.Method_declContext e : lista){
 			//System.out.println(e.getText());
-			
 			//visit(e);
 			declaraMetodos.add(visit(e));
 		}
@@ -40,6 +39,7 @@ public class AstVisitor extends DecafParserBaseVisitor<Node>{
 		int cantVar = ctx.ID().size();
 		for (int i = 0; i<cantVar; i++){
 			//vars = vars + ", " + ctx.ID(i).getText();
+			System.out.println(ctx.ID(i).getText());
 			variables.add(new Variable(ctx.TIPO().getText(), ctx.ID(i).getText()));
 		}
 		
@@ -238,7 +238,7 @@ public class AstVisitor extends DecafParserBaseVisitor<Node>{
 		List<DecafParser.Callout_argContext> lista = ctx.callout_arg();
 		
 		for(DecafParser.Callout_argContext e : lista){
-			System.out.println(e.getText());
+			//System.out.println(e.getText());
 			callout_list.add(visit(e)); // visitVar_decl
 		}
 		
