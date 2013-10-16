@@ -12,12 +12,15 @@ public class Semantic{
 		
 		System.out.println("Primer nodo(nombre):" + programa.retId());
 		NLista declaraciones = (NLista) programa.retField_dcl();
-		//private List<Node> list retList()
-		
+	
 		List<Node> listaCampos = declaraciones.retList();
-		
-		//System.out.println("listaCampos: " + listaCampos(0));
-		
+		System.out.println("declaraciones: " + declaraciones);
+		//declaraciones.print();
+
+		System.out.println("cant parametros: " + listaCampos.size());
+		for (int i=0; i< listaCampos.size(); i++){
+			System.out.println("contenido: " + listaCampos.get(i));
+		}
 		//programa.print();
 		
 		// System.out.println(archivo.arbolAST().retList().get(0));

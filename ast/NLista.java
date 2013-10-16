@@ -28,6 +28,14 @@ public class NLista extends Node{
 	public List<Node> retList(){
 		return  list;
 	}
+	
+	public Node ItemLista(int i){
+		if (i <list.size()) {
+			return list.get(i);
+		}else{
+			return null;
+		}
+	}
 } 
  
  
