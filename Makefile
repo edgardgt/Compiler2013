@@ -51,6 +51,8 @@ ast\Ast.class: ast\Ast.java
 	
 semantic\Semantic.class: semantic\Semantic.java
 	javac semantic\Semantic.java
+	javac semantic\Parametro.java
+	javac semantic\Simbolo.java
 
 irt\Irt.class: irt\Irt.java
 	javac irt\Irt.java
