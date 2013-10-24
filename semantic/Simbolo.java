@@ -22,6 +22,13 @@ public class Simbolo{
 		scope = sc;
 	}
 	
+	public Simbolo(String s, String tS, String tD, int tam, String sc){
+		simbolo = s;	
+		tipoSimbolo = tS;
+		tipoDato = tD;
+		tamanio = tam;
+		scope = sc;
+	}
 	//metodos
 	public String retSimbolo(){
 		return simbolo;	
