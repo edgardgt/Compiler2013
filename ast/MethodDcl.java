@@ -18,6 +18,7 @@ public class MethodDcl extends Node{
 // Metodos	
 	public void print(String padding){
 		System.out.println(padding + "metodo");
+		System.out.println(padding + "\t" + tipo);
 		System.out.println(padding + "\t" + id);
 		params.print(padding + "\t");
 		bloque.print(padding + "\t");
